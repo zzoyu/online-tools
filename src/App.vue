@@ -20,11 +20,15 @@ enum ModeType {
 }
 
 const mode = ref(ModeType.Encode);
-const processedText = computed(() =>
-  mode.value === ModeType.Encode
-    ? encodeURIComponent(text.value)
-    : decodeURIComponent(text.value)
-);
+const processedText = computed(() => {
+  try {
+    return mode.value === ModeType.Encode
+      ? encodeURIComponent(text.value)
+      : decodeURIComponent(text.value);
+  } catch (e) {
+    return "Invalid input";
+  }
+});
 
 const toggleMode = () => {
   mode.value =
